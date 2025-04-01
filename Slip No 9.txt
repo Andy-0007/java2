@@ -126,3 +126,13 @@ class Ball extends Thread
 
 
 Q2.
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+	@GetMapping
+	public String hello() {
+		return "If you can't explain it simply, you don't understand it well enough";
+	}
+}
