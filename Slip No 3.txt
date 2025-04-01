@@ -1,0 +1,140 @@
+Slip No 3
+
+Q1.
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Details</title>
+    <style>
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center;">Patient Details</h2>
+
+<%
+    // Creating a Patient class
+    class Patient {
+        int PNo;
+        String PName, Address, Disease;
+        int Age;
+
+        public Patient(int PNo, String PName, String Address, int Age, String Disease) {
+            this.PNo = PNo;
+            this.PName = PName;
+            this.Address = Address;
+            this.Age = Age;
+            this.Disease = Disease;
+        }
+    }
+
+    // Creating a list of patients
+    List<Patient> patients = new ArrayList<>();
+    patients.add(new Patient(101, "Amit Sharma", "Mumbai", 30, "Flu"));
+    patients.add(new Patient(102, "Riya Verma", "Pune", 25, "Fever"));
+    patients.add(new Patient(103, "Rahul Gupta", "Delhi", 40, "Diabetes"));
+    patients.add(new Patient(104, "Sita Das", "Kolkata", 35, "Hypertension"));
+
+%>
+
+<table>
+    <tr>
+        <th>PNo</th>
+        <th>PName</th>
+        <th>Address</th>
+        <th>Age</th>
+        <th>Disease</th>
+    </tr>
+    <% 
+        for (Patient p : patients) { 
+    %>
+        <tr>
+            <td><%= p.PNo %></td>
+            <td><%= p.PName %></td>
+            <td><%= p.Address %></td>
+            <td><%= p.Age %></td>
+            <td><%= p.Disease %></td>
+        </tr>
+    <% } %>
+</table>
+
+</body>
+</html>
+
+
+
+
+
+Q2.
+
+
+import java.util.LinkedList; 
+import java.util.ListIterator; 
+import java.util.Scanner; 
+class CollAss2 
+{ 
+public static void main(String args[]) 
+{ 
+LinkedList<String> LL=new LinkedList<String>(); 
+Scanner sc = new Scanner(System.in); 
+int ch; 
+System.out.println("How many friend name u want to accept :"); 
+int n=sc.nextInt(); 
+System.out.println("Enter Friend Name:"); 
+for(int i=0;i<n;i++) 
+{ 
+} 
+String name=sc.next(); 
+LL.add(name); 
+System.out.println("The list is :"+LL); 
+do 
+{ 
+System.out.println("1:Add element at end of list :"); 
+System.out.println("2:Delete first element of list :"); 
+System.out.println("3:Display element in reverse order :"); 
+System.out.println("4:Exit:"); 
+ System.out.println("Enter your choice :"); 
+ ch=sc.nextInt(); 
+ switch(ch) 
+ { 
+ case 1: 
+  System.out.println("Enter element :"); 
+  String name=sc.next(); 
+  LL.addLast(name); 
+  System.out.println("The list is :"+LL);  
+  break; 
+ 
+ case 2: 
+  LL.removeFirst(); 
+  System.out.println("The list is :"+LL); 
+  break; 
+ case 3: 
+  ListIterator li=LL.listIterator(); 
+  System.out.println("List elements in forward order:");   
+  while(li.hasNext()) 
+   System.out.println(li.next()); 
+  System.out.println("List elements in reverse order:"); 
+  while(li.hasPrevious()) 
+   System.out.println(li.previous()); 
+ 
+ } 
+ }while(ch<4);  
+} 
+}
+

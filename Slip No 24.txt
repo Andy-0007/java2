@@ -1,0 +1,116 @@
+Slip No 24
+
+
+Q1.
+
+
+import javax.swing.*;
+import java.awt.*;
+
+class ScrollingText implements Runnable {
+    private JLabel label;
+    private String text;
+    private int position = 0;
+
+    public ScrollingText(JLabel label, String text) {
+        this.label = label;
+        this.text = text;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(300); // Speed of scrolling
+                position++;
+                if (position > text.length()) {
+                    position = 0; // Reset position when full text is scrolled
+                }
+                label.setText(text.substring(position) + " " + text.substring(0, position));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+public class ScrollingTextApp {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Scrolling Text");
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
+        
+        JLabel label = new JLabel(" Welcome to Java Programming! ");
+        label.setFont(new Font("Arial", Font.BOLD, 20));
+        frame.add(label);
+        
+        Thread thread = new Thread(new ScrollingText(label, label.getText()));
+        thread.start();
+        
+        frame.setVisible(true);
+    }
+}
+
+
+
+Q2.
+
+
+
+Index.html  
+<html>  
+<head>  
+<title>Login Page</title>  
+</head>  
+<body>  
+<form action="checkdetails.jsp">  
+<legend>Enter User Id and Password...!!!</legend>  
+UserId: <input type="text" name="id" /> <br><br>  
+Password: <input type="text" name="pass" /> <br><br>  
+<input type="submit" value="Sign In!!"/>  
+</div>  
+</form>  
+</body>  
+</html>  
+Checkdetails.jsp  
+<html>  
+<head>  
+<title>Check Credentials</title>  
+</head>  
+<body>  
+<%  
+String uid=request.getParameter("id");  
+String password=request.getParameter("pass");  
+session.setAttribute("session-uid", uid);  
+if(uid.equals("Sofiya") && password.equals("Shaikh"))  
+{  
+response.sendRedirect("success.jsp");  
+}  
+else  
+{  
+response.sendRedirect("failed.jsp");  
+}  
+%>  
+</body>  
+</html>  
+Success.jsp  
+<html>  
+<head><title>Success Page</title></head>  
+<body>  
+<%  
+String data=(String)session.getAttribute("session-uid");  
+out.println(" Login Successfully...!!!");  
+%>  
+</body>  
+</html>  
+Failed.jsp  
+<html>  
+<head><title>Sign-in Failed Page</title></head>  
+<body>  
+<%  
+String data2=(String)session.getAttribute("session-uid");  
+out.println(" User Id and Password are wrong. Please try Again.");  
+%>  
+</body>  
+</html>

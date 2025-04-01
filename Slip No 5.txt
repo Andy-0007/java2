@@ -1,0 +1,109 @@
+Slip 5
+
+
+Q1.  
+
+import java.util.*; 
+import java.util.Hashtable.*; 
+import java.util.Enumeration;  
+class CollAss4 
+{ 
+public static void main(String args[]) 
+{ 
+} 
+} 
+Hashtable<String,String>ht= new Hashtable<String,String>(); 
+ht.put("9876544654","Amruta"); 
+ht.put("9988544654","Rama");    
+ht.put("9006544654","Shraddha"); 
+Enumeration<String> e = ht.keys();  
+while (e.hasMoreElements())  
+{  
+}  
+String key = e.nextElement();  
+// Printing the current element  
+System.out.println(key + ":" +ht.get(key)); 
+	}
+}
+}
+
+
+Q2
+
+
+<%@ page import="java.sql.*, java.util.*" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<html>
+<head>
+    <title>Online Test</title>
+</head>
+<body>
+    <h2>Online Multiple Choice Test</h2>
+
+    <%
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        int score = 0;
+        boolean isSubmitted = request.getParameter("submit") != null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "password");
+            stmt = con.createStatement();
+
+            if (!isSubmitted) {
+                // Fetching random questions
+                List<Integer> questionIds = new ArrayList<>();
+                rs = stmt.executeQuery("SELECT id FROM questions");
+                while (rs.next()) {
+                    questionIds.add(rs.getInt("id"));
+                }
+                Collections.shuffle(questionIds);
+
+                // Display questions
+    %>
+                <form method="post">
+    <%
+                for (int i = 0; i < 5 && i < questionIds.size(); i++) {
+                    int questionId = questionIds.get(i);
+                    rs = stmt.executeQuery("SELECT * FROM questions WHERE id=" + questionId);
+                    if (rs.next()) {
+    %>
+                        <p><b><%= rs.getString("question") %></b></p>
+                        <input type="radio" name="q<%= rs.getInt("id") %>" value="1"> <%= rs.getString("option1") %><br>
+                        <input type="radio" name="q<%= rs.getInt("id") %>" value="2"> <%= rs.getString("option2") %><br>
+                        <input type="radio" name="q<%= rs.getInt("id") %>" value="3"> <%= rs.getString("option3") %><br>
+                        <input type="radio" name="q<%= rs.getInt("id") %>" value="4"> <%= rs.getString("option4") %><br><br>
+    <%
+                    }
+                }
+    %>
+                <input type="submit" name="submit" value="Submit">
+                </form>
+    <%
+            } else {
+                // Processing answers and calculating score
+                for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+                    String paramName = e.nextElement();
+                    if (paramName.startsWith("q")) {
+                        int userAnswer = Integer.parseInt(request.getParameter(paramName));
+                        int questionId = Integer.parseInt(paramName.substring(1));
+
+                        rs = stmt.executeQuery("SELECT correct_option FROM questions WHERE id=" + questionId);
+                        if (rs.next() && rs.getInt("correct_option") == userAnswer) {
+                            score++;
+                        }
+                    }
+                }
+                out.println("<h3>Your Total Score: " + score + "</h3>");
+            }
+        } catch (Exception e) {
+            out.println("Error: " + e.getMessage());
+        } finally {
+            if (con != null) con.close();
+        }
+    %>
+
+</body>
+</html>

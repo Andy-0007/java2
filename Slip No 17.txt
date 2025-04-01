@@ -1,0 +1,81 @@
+Slip No 17
+
+
+
+Q1.
+
+import java.util.*; 
+class CollAss7 
+{ 
+public static void main(String args[]) 
+{ 
+Scanner sc=new Scanner(System.in); 
+HashSet<Integer> hs=new HashSet<Integer>(); 
+System.out.println("How many number you want to store- "); 
+int n=sc.nextInt(); 
+System.out.println("Enter the Numbers- "); 
+for(int i=0;i<n;i++) 
+{ 
+Integer num=sc.nextInt(); 
+hs.add(num); 
+} 
+TreeSet<Integer> t=new TreeSet<Integer>(hs); 
+System.out.println(t); 
+} 
+}
+
+
+Q2.
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+class CounterRunnable implements Runnable {
+    private JTextField textField;
+
+    public CounterRunnable(JTextField textField) {
+        this.textField = textField;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 1; i <= 100; i++) {
+            try {
+                textField.setText(String.valueOf(i));
+                Thread.sleep(500); // Delay of 500ms for smooth update
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+public class CounterApp {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Number Counter");
+        frame.setSize(300, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        
+        JTextField textField = new JTextField(10);
+        textField.setEditable(false);
+        JButton startButton = new JButton("Start Counting");
+        
+        panel.add(textField);
+        panel.add(startButton);
+        frame.add(panel);
+        
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Thread counterThread = new Thread(new CounterRunnable(textField));
+                counterThread.start();
+            }
+        });
+        
+        frame.setVisible(true);
+    }
+}
